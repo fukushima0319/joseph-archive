@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Joseph's Archive - 写真家 衣装図鑑</title>
+    <style>
+        /* 全体のデザイン設定 */
+        body {
+            background-color: #0d0d0d; /* より深い黒 */
+            color: #d1d1d1;
+            font-family: "Times New Roman", "Yu Mincho", serif;
+            margin: 0;
+            padding-bottom: 100px;
+        }
+
+        /* ヘッダー */
+        .header {
+            background: linear-gradient(to bottom, #1a1a1a, #0d0d0d);
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 1px solid #444;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            letter-spacing: 5px;
+            margin: 0;
+            color: #fff;
+        }
+
+        /* フィルタメニュー（固定表示） */
+        .filter-menu {
+            position: sticky;
+            top: 0;
+            background: rgba(13, 13, 13, 0.95);
+            padding: 15px 0;
+            text-align: center;
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+            backdrop-filter: blur(5px);
+        }
+
+        .filter-menu button {
+            background: #222;
+            color: #aaa;
+            border: 1px solid #444;
+            padding: 8px 18px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.9em;
+            transition: 0.3s;
+        }
+
+        .filter-menu button:hover {
+            border-color: #fff;
+            color: #fff;
+        }
+
+        /* コンテナ */
+        .container {
+            max-width: 850px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* レア度別セクションの見出し */
+        .rarity-section {
+            font-size: 1.8em;
+            margin: 40px 0 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #333;
+        }
+
+        /* 衣装カードの基本デザイン */
+        .skin-card {
+            display: flex;
+            background: #181818;
+            border: 1px solid #2a2a2a;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .skin-card:hover {
+            transform: translateY(-3px);
+            background: #222;
+        }
+
+        /* 画像エリア */
+        .skin-img {
+            width: 160px;
+            height: 160px;
+            background: #000;
+            flex-shrink: 0;
+        }
+
+        .skin-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* テキストエリア */
+        .skin-info {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .skin-info h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.3em;
+        }
+
+        .flavor-text {
+            font-style: italic;
+            font-size: 0.85em;
+            color: #999;
+            line-height: 1.5;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            border-left: 1px solid #444;
+        }
+
+        .obtain {
+            font-size: 0.8em;
+            color: #666;
+            margin: 0;
+        }
+
+        /* ★レア度別の光演出★ */
+        .ur-glow { 
+            border-left: 6px solid #ffd700; 
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.15); 
+        }
+        .ur-title { color: #ffd700 !important; }
+
+        .ssr-glow { 
+            border-left: 6px solid #c0c0c0; 
+            box-shadow: 0 0 15px rgba(192, 192, 192, 0.15); 
+        }
+        .ssr-title { color: #e0e0e0 !important; }
+
+        .sr-glow { border-left: 6px solid #8a2be2; } /* SRは紫のイメージ */
+        .sr-title { color: #b388ff !important; }
+
+        .r-glow { border-left: 6px solid #444; }
+        .r-title { color: #888 !important; }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Joseph's Archive</h1>
+        <p>写真家・ジョゼフ 衣装コレクション</p>
+    </div>
+
+    <div class="filter-menu">
+        <button onclick="filterSkins('all')">すべて表示</button>
+        <button onclick="filterSkins('ur-glow')">UR (金)</button>
+        <button onclick="filterSkins('ssr-glow')">SSR (銀)</button>
+        <button onclick="filterSkins('sr-glow')">SR</button>
+        <button onclick="filterSkins('r-glow')">R</button>
+    </div>
+
+    <div class="container" id="skin-container">
+
+        <h2 class="rarity-section ur-title">UR Skins</h2>
+
+        <div class="skin-card ur-glow">
+            <div class="skin-img"><img src="アズラ.png" alt="アズラーイール"></div>
+            <div class="skin-info">
+                <h3 class="ur-title">アズラーイール</h3>
+                <div class="flavor-text">この季節一枚目の落ち葉を持って、彼は空から舞い降りた。</div>
+                <p class="obtain">(ショップ)</p>
+            </div>
+        </div>
+
+        <div class="skin-card ur-glow">
+            <div class="skin-img"><img src="裁判官.png" alt="裁判官"></div>
+            <div class="skin-info">
+                <h3 class="ur-title">裁判官 (限定)</h3>
+                <div class="flavor-text">正義？公平？それは枷を掛けられる前に考えるべきことだ。</div>
+                <p class="obtain">(S13・真髄2)</p>
+            </div>
+        </div>
+
+        <div class="skin-card ur-glow">
+            <div class="skin-img"><img src="亡霊の魔術師.png" alt="亡霊の魔術師"></div>
+            <div class="skin-info">
+                <h3 class="ur-title">亡霊の魔術師 (限定)</h3>
+                <div class="flavor-text">あの若者が神殿へと足を踏み入れた時、彼は同じくらい神託の顕現に期待していた。神秘的な予言を経て、邪神の子がついに浮かび上がる瞬間を。</div>
+                <p class="obtain">(S27・真髄2)</p>
+            </div>
+        </div>
+
+        <div class="skin-card ur-glow">
+            <div class="skin-img"><img src="盛夏の光影.png" alt="盛夏の光影"></div>
+            <div class="skin-info">
+                <h3 class="ur-title">盛夏の光影</h3>
+                <div class="flavor-text">カメラは体温も脈拍も捉えられない。思い出と共に盛夏の光影を切り取っても、結局冷たい写真しか生まれない。</div>
+                <p class="obtain">(2025・夏休みショップ)</p>
+            </div>
+        </div>
+
+        <div class="skin-card ur-glow">
+            <div class="skin-img"><img src="「恒久の光」.png" alt="恒久の光"></div>
+            <div class="skin-info">
+                <h3 class="ur-title">「恒久の光」</h3>
+                <div class="flavor-text">「新世界の印」：彼の国は、安定した規律のもとで保たれていた。繰り返される黄金時代には、過去に対する「神」の愛と懐旧が反映されているのだろうか。</div>
+                <p class="obtain">(CALL OF THE ABYSSⅨ)</p>
+            </div>
+        </div>
+
+        <h2 class="rarity-section ssr-title">SSR Skins</h2>
+
+        <div class="skin-card ssr-glow">
+            <div class="skin-img"><img src="月下.png" alt="月下の紳士"></div>
+            <div class="skin-info">
+                <h3 class="ssr-title">月下の紳士</h3>
+                <div class="flavor-text">夢の中の月光は優しく柔らかい。ただ、彼と一曲踊ってくれる相手はいないようだ。</div>
+                <p class="obtain">(S3・真髄3)</p>
+            </div>
+        </div>
+
+        <div class="skin-card ssr-glow">
+            <div class="skin-img"><img src="あぽろ.jpg" alt="アポロ"></div>
+            <div class="skin-info">
+                <h3 class="ssr-title">アポロ</h3>
+                <div class="flavor-text">あなたへの光と希望は私だけが与えられる。私だけが奪える。</div>
+                <p class="obtain">(S6・真髄１)</p>
+            </div>
+        </div>
+
+        <div class="skin-card ssr-glow">
+            <div class="skin-img"><img src="血の剣.png" alt="血の剣"></div>
+            <div class="skin-info">
+                <h3 class="ssr-title">血の剣</h3>
+                <div class="flavor-text">魔典の力を略奪するために裏で行動し、鏡から得た情報を通して古城の残局を把握した。しかし、抱擁の出現を予想できず、彼は手に入れたばかりの物が奪われていくのを見ているしか術がなかった。だが、次の獲物は決して手放さない。</div>
+                <p class="obtain">(S9・真髄1)</p>
+            </div>
+        </div>
+
+        <div class="skin-card ssr-glow">
+            <div class="skin-img"><img src="リニュ.png" alt="アン・リニュ"></div>
+            <div class="skin-info">
+                <h3 class="ssr-title">アン・リニュ</h3>
+                <div class="flavor-text">幻夢を刺し壊す準備はできたか？</div>
+                <p class="obtain">(S12・真髄2)</p>
+            </div>
+        </div>
+
+        <div class="skin-card ssr-glow">
+            <div class="skin-img"><img src="D.M.png" alt="D.M"></div>
+            <div class="skin-info">
+                <h3 class="ssr-title">「D.M」(限定)</h3>
+                <div class="flavor-text">彼の「真摯」に惑わされるな！（衣装、3周年祭典で獲得）</div>
+                <p class="obtain">(3周年・オフラインパック)</p>
+            </div>
+        </div>
+
+        <div class="skin-card ssr-glow">
+            <div class="skin-img"><img src="ピーター・ラートリー.png" alt="ピーター・ラートリー"></div>
+            <div class="skin-info">
+                <h3 class="ssr-title">ピーター・ラートリー</h3>
+                <div class="flavor-text">ピーター・ラートリーの服装。</div>
+                <p class="obtain">(約束のネバーランドコラボ真髄2)</p>
+            </div>
+        </div>
+
+        <div class="skin-card ssr-glow">
+            <div class="skin-img"><img src="ファウスト.png" alt="ファウスト"></div>
+            <div class="skin-info">
+                <h3 class="ssr-title">ファウスト</h3>
+                <div class="flavor-text">一切の無常なるものはただ幻影たるに過ぎず。</div>
+                <p class="obtain">(2021・演繹の星)</p>
+            </div>
+        </div>
+
+        <div class="skin-card ssr-glow">
+            <div class="skin-img"><img src="宿酔.png" alt="宿酔"></div>
+            <div class="skin-info">
+                <h3 class="ssr-title">宿酔</h3>
+                <div class="flavor-text">ワインに染められたバラは、まるで何かの予兆のようだ。酔いが醒める頃、真っ先に災いの到来に気付くのは誰だろうか？</div>
+                <p class="obtain">(期間限定ショップ)</p>
+            </div>
+        </div>
+
+        <div class="skin-card ssr-glow">
+            <div class="skin-img"><img src="安寧.png" alt="安寧"></div>
+            <div class="skin-info">
+                <h3 class="ssr-title">安寧</h3>
+                <div class="flavor-text">安寧の世界は、往々にしてけたたましい魂を育む。</div>
+                <p class="obtain">(S26・真髄1)</p>
+            </div>
+        </div>
+
+        <div class="skin-card ssr-glow">
+            <div class="skin-img"><img src="ドリームシナモロール.png" alt="ドリームシナモロール"></div>
+            <div class="skin-info">
+                <h3 class="ssr-title">ドリームシナモロール</h3>
+                <div class="flavor-text">IdentityⅤ×サンリオキャラクターズ コラボ衣装</div>
+                <p class="obtain">(サンリオコラボショップ)</p>
+            </div>
+        </div>
+
+        <div class="skin-card ssr-glow">
+            <div class="skin-img"><img src="「アンバー」.png" alt="アンバー"></div>
+            <div class="skin-info">
+                <h3 class="ssr-title">「アンバー」</h3>
+                <div class="flavor-text">滴り落ちる甘い蜜が捕食者の姿をその瞬間に留め、息が詰まるような甘美に封じ込めた。</div>
+                <p class="obtain">(2024・ハロウィンイベント)</p>
+            </div>
+        </div>
+
+        <h2 class="rarity-section sr-title">SR Skins</h2>
+
+        <div class="skin-card sr-glow">
+            <div class="skin-img"><img src="虚言.png" alt="虚言"></div>
+            <div class="skin-info">
+                <h3 class="sr-title">「虚言」</h3>
+                <div class="flavor-text">私の言葉は、全て私の本心だ。…私に、本心と言うものがあればの話だが。</div>
+                <p class="obtain">(S5・真髄2)</p>
+            </div>
+        </div>
+
+        <div class="skin-card sr-glow">
+            <div class="skin-img"><img src="催眠.jpg" alt="催眠医師"></div>
+            <div class="skin-info">
+                <h3 class="sr-title">催眠医師</h3>
+                <div class="flavor-text">催眠により患者の弱みや歪みの様を集める。患者に対して無意味な同情心を抱くのはロールシャッハ医師だけだ…あいつをあの虫ケラたちの仲間に仕立て上げてやろう！</div>
+                <p class="obtain">(S6・真髄2)</p>
+            </div>
+        </div>
+
+        <div class="skin-card sr-glow">
+            <div class="skin-img"><img src="伯爵.jpg" alt="伯爵"></div>
+            <div class="skin-info">
+                <h3 class="sr-title">伯爵</h3>
+                <div class="flavor-text">永遠に壁に掛けられたくないのなら、彼への態度には気を付けることだ。</div>
+                <p class="obtain">(S7・真髄2)</p>
+            </div>
+        </div>
+
+        <div class="skin-card sr-glow">
+            <div class="skin-img"><img src="マクベス.png" alt="マクベス"></div>
+            <div class="skin-info">
+                <h3 class="sr-title">マクベス</h3>
+                <div class="flavor-text">どれほど長く暗くても、明けない夜はない。――『マクベス』</div>
+                <p class="obtain">(イベントショップ)</p>
+            </div>
+        </div>
+
+        <div class="skin-card sr-glow">
+            <div class="skin-img"><img src="司会.png" alt="オークション司会"></div>
+            <div class="skin-info">
+                <h3 class="sr-title">オークション司会</h3>
+                <div class="flavor-text">最も熱狂的な崇拝者として、オークション司会は異界行者の作品を拡散し続け、深淵の華麗さと新奇さを世界中に広めようとしていた。</div>
+                <p class="obtain">(CALL OF THE ABYSSⅢ)</p>
+            </div>
+        </div>
+
+        <div class="skin-card sr-glow">
+            <div class="skin-img"><img src="いチハツ.png" alt="イチハツ"></div>
+            <div class="skin-info">
+                <h3 class="sr-title">イチハツ</h3>
+                <div class="flavor-text">あの砂漠の冒険は成功したとは言えないが、少なくとも例のノートの価値は証明された。私はより高い報酬を出し、より良いアシスタントを雇った。</div>
+                <p class="obtain">(S10・真髄2)</p>
+            </div>
+        </div>
+
+        <div class="skin-card sr-glow">
+            <div class="skin-img"><img src="特使.png" alt="特使"></div>
+            <div class="skin-info">
+                <h3 class="sr-title">「特使」</h3>
+                <div class="flavor-text">親王殿下、善良な人の方が貪欲になりやすい。これはあなたが学ぶべき最後の授業だ。</div>
+                <p class="obtain">(S11・真髄3)</p>
+            </div>
+        </div>
+
+        <div class="skin-card sr-glow">
+            <div class="skin-img"><img src="依頼人.png" alt="依頼人"></div>
+            <div class="skin-info">
+                <h3 class="sr-title">依頼人</h3>
+                <div class="flavor-text">第1問、狩りの楽しみは追撃의過程によるものか、獲物そのものによるものか。</div>
+                <p class="obtain">(グローバル版2周年イベント)</p>
+            </div>
+        </div>
+
+        <div class="skin-card sr-glow">
+            <div class="skin-img"><img src="「謎」.png" alt="謎"></div>
+            <div class="skin-info">
+                <h3 class="sr-title">「謎」</h3>
+                <div class="flavor-text">「龍を殺す方法を知っていますか？烈火の中でその首を切り落とし、最古の壁に嵌めるのです。」</div>
+                <p class="obtain">(グローバル版3周年イベント)</p>
+            </div>
+        </div>
+
+        <div class="skin-card sr-glow">
+            <div class="skin-img"><img src="スロースケートの種.png" alt="スロースケートの種"></div>
+            <div class="skin-info">
+                <h3 class="sr-title">スロースケートの種</h3>
+                <div class="flavor-text">5つの小さな氷の人形。いがみ合い、疑い合う。言葉の端々から疑いを招き、5つは4つになった。</div>
+                <p class="obtain">(S20・真髄1)</p>
+            </div>
+        </div>
+
+        <div class="skin-card sr-glow">
+            <div class="skin-img"><img src="聖誕祭衣装(写).png" alt="聖誕祭衣装"></div>
+            <div class="skin-info">
+                <h3 class="sr-title">聖誕祭衣装</h3>
+                <div class="flavor-text">クリスマスの雪夜、この時だけ、町は写真の中と同じような白黒の光景を見せてくれる。</div>
+                <p class="obtain">(2022・クリスマスイベント)</p>
+            </div>
+        </div>
+
+        <div class="skin-card sr-glow">
+            <div class="skin-img"><img src="「親切」な狼.png" alt="「親切」な狼"></div>
+            <div class="skin-info">
+                <h3 class="sr-title">「親切」な狼</h3>
+                <div class="flavor-text">籠の外に見える彼の眼差しが計算によるものか、心からの関心か、もはや分からない。</div>
+                <p class="obtain">(S32・真髄2)</p>
+            </div>
+        </div>
+
+        <div class="skin-card sr-glow">
+            <div class="skin-img"><img src="「暴君」.png" alt="「暴君」"></div>
+            <div class="skin-info">
+                <h3 class="sr-title">「暴君」</h3>
+                <div class="flavor-text">規則は人を縛り、人を守る。</div>
+                <p class="obtain">(期間限定ショップ)</p>
+            </div>
+        </div>
+
+        <h2 class="rarity-section r-title">R Skins</h2>
+
+        <div class="skin-card r-glow">
+            <div class="skin-img"><img src="血影.png" alt="血影"></div>
+            <div class="skin-info">
+                <h3 class="r-title">血影</h3>
+                <div class="flavor-text">瞬く間に終わってしまう歓喜は致命的な毒となる。しかし、誰がこのロマンスを拒めるだろうか？</div>
+                <p class="obtain">(S4・推理の径)</p>
+            </div>
+        </div>
+
+        <div class="skin-card r-glow">
+            <div class="skin-img"><img src="夕焼け.png" alt="夕焼け"></div>
+            <div class="skin-info">
+                <h3 class="r-title">夕焼け</h3>
+                <div class="flavor-text">街中を行き交う人々に、夕日の余韻を楽しんでもらうのも悪くはないだろう。</div>
+                <p class="obtain">(閲歴得点)</p>
+            </div>
+        </div>
+
+        <div class="skin-card r-glow">
+            <div class="skin-img"><img src="潭の影.png" alt="潭の影"></div>
+            <div class="skin-info">
+                <h3 class="r-title">潭の影</h3>
+                <div class="flavor-text">静かな水面に映し出された来客の顔は、潭の水の冷たさを隠す。</div>
+                <p class="obtain">(S11・推理の径)</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function filterSkins(rarityClass) {
+            const cards = document.querySelectorAll('.skin-card');
+            const sections = document.querySelectorAll('.rarity-section');
+
+            cards.forEach(card => {
+                if (rarityClass === 'all') {
+                    card.style.display = 'flex';
+                } else {
+                    if (card.classList.contains(rarityClass)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+
+            // 見出しの表示制御
+            sections.forEach(sec => {
+                sec.style.display = (rarityClass === 'all') ? 'block' : 'none';
+            });
+        }
+    </script>
+
+</body>
+</html>
